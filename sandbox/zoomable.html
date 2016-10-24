@@ -67,6 +67,7 @@ rect.parent {
 
 <body>
 <div id="chart"></div>
+<div id="table"></div>
 
 <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -198,6 +199,12 @@ function main(o, data) {
   }
 
   function display(d) {
+    // I'm sorry smurphy. 
+    $('#table').html('')
+    d.values.sort(function(a, b) { return a.value < b.value }).forEach(function(value) {
+      $('#table').append("<tr><td>" + value.key + "</td><td>" + value.value + "</td></tr>")
+    });
+
     grandparent
         .datum(d.parent)
         .on("click", transition)
@@ -321,7 +328,7 @@ if (window.location.hash === "") {
             var data = d3.nest()
                          .key(function(d) { return d.agency; })
                          .key(function(d) { return d.lob; })
-			 .key(function(d) { return d.program })
+                         .key(function(d) { return d.program })
                          .entries(res);
             main({title: "City of Oklahoma City Budget - FY2016"}, {key: "Budget", values: data});
         }
