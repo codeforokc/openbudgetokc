@@ -157,6 +157,7 @@ ob.display = ob.display || {};
         .style("fill", function(d) { return color(d.key); });
       
       function transition(d) {
+        // control transition between different levels of the tree
         if (transitioning || !d) return;
         transitioning = true;
         
