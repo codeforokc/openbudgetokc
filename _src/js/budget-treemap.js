@@ -104,42 +104,6 @@ ob.display = ob.display || {};
     }
 
 
-
-    function transition(d) {
-      if (transitioning || !d) return;
-      transitioning = true;
-      
-      var g2 = display(d),
-          t1 = g1.transition().duration(750),
-          t2 = g2.transition().duration(750);
-      
-      // Update the domain only after entering new elements.
-      x.domain([d.x, d.x + d.dx]);
-      y.domain([d.y, d.y + d.dy]);
-      
-      // Enable anti-aliasing during the transition.
-      svg.style("shape-rendering", null);
-      
-      // Draw child nodes on top of parent nodes.
-      svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
-      
-      // Fade-in entering text.
-      g2.selectAll("text").style("fill-opacity", 0);
-      
-      // Transition to the new view.
-      t1.selectAll(".ptext").call(text).style("fill-opacity", 0);
-      t1.selectAll(".ctext").call(text2).style("fill-opacity", 0);
-      t2.selectAll(".ptext").call(text).style("fill-opacity", 1);
-      t2.selectAll(".ctext").call(text2).style("fill-opacity", 1);
-      t1.selectAll("rect").call(rect);
-      t2.selectAll("rect").call(rect);
-      
-      // Remove the old node when the transition is finished.
-      t1.remove().each("end", function() {
-        svg.style("shape-rendering", "crispEdges");
-        transitioning = false;
-      });
-    }
     
     function display(d) {
       grandparent
@@ -192,7 +156,41 @@ ob.display = ob.display || {};
       g.selectAll("rect")
         .style("fill", function(d) { return color(d.key); });
       
-
+      function transition(d) {
+        if (transitioning || !d) return;
+        transitioning = true;
+        
+        var g2 = display(d),
+            t1 = g1.transition().duration(750),
+            t2 = g2.transition().duration(750);
+        
+        // Update the domain only after entering new elements.
+        x.domain([d.x, d.x + d.dx]);
+        y.domain([d.y, d.y + d.dy]);
+        
+        // Enable anti-aliasing during the transition.
+        svg.style("shape-rendering", null);
+        
+        // Draw child nodes on top of parent nodes.
+        svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
+        
+        // Fade-in entering text.
+        g2.selectAll("text").style("fill-opacity", 0);
+        
+        // Transition to the new view.
+        t1.selectAll(".ptext").call(text).style("fill-opacity", 0);
+        t1.selectAll(".ctext").call(text2).style("fill-opacity", 0);
+        t2.selectAll(".ptext").call(text).style("fill-opacity", 1);
+        t2.selectAll(".ctext").call(text2).style("fill-opacity", 1);
+        t1.selectAll("rect").call(rect);
+        t2.selectAll("rect").call(rect);
+        
+        // Remove the old node when the transition is finished.
+        t1.remove().each("end", function() {
+          svg.style("shape-rendering", "crispEdges");
+          transitioning = false;
+        });
+      }      
       
       return g;
     }
