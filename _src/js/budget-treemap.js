@@ -5,30 +5,42 @@ ob.display = ob.display || {};
 
 
   namespace.budget_tree = function (o, data) {
-    var root,
-        opts = $.extend( true
+
+    // Variables at top level of budget tree
+    
+    var root
+    var opts = $.extend( true
                          , {}
                          , defaults
-                         , o),
-        formatNumber = d3.format(opts.format),
-        rname = opts.rootname,
-        margin = opts.margin,
-        theight = 36 + 16;
+                         , o)
+
+    var formatNumber = d3.format(opts.format)
+
     
-    $('#chart').width(opts.width).height(opts.height);
-    var width = opts.width - margin.left - margin.right,
-        height = opts.height - margin.top - margin.bottom - theight,
-        transitioning;
+    var rname   = opts.rootname
+    var margin  = opts.margin
+    var theight = 36 + 16;
+    
+
+    var width  = opts.width - margin.left - margin.right
+    var height = opts.height - margin.top - margin.bottom - theight
+    var transitioning;
     
     var color = d3.scale.category20c();
+
+
     
     var x = d3.scale.linear()
         .domain([0, width])
         .range([0, width]);
+
+
     
     var y = d3.scale.linear()
         .domain([0, height])
         .range([0, height]);
+
+
     
     var treemap = d3.layout.treemap()
         .children(function(d, depth) { return depth ? null : d._children; })
@@ -37,30 +49,21 @@ ob.display = ob.display || {};
         .round(false);
     
     var svg = d3.select("#chart").append("svg")
-        .attr("width", width + margin.left + margin.right)
+        .attr("width" , width  + margin.left   + margin.right)
         .attr("height", height + margin.bottom + margin.top)
-        .style("margin-left", -margin.left + "px")
+        .style("margin-left" , -margin.left  + "px")
         .style("margin.right", -margin.right + "px")
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform"       , "translate(" + margin.left + "," + margin.top + ")")
         .style("shape-rendering", "crispEdges");
     
     var grandparent = svg.append("g")
         .attr("class", "grandparent");
     
-    grandparent.append("rect")
-      .attr("y", -margin.top)
-      .attr("width", width)
-      .attr("height", margin.top);
+
+
     
-    grandparent.append("text")
-      .attr("x", 6)
-      .attr("y", 6 - margin.top)
-      .attr("dy", ".75em");
-    
-    if (opts.title) {
-      $("#chart").prepend("<p class='title'>" + opts.title + "</p>");
-    }
+
     if (data instanceof Array) {
       root = { key: rname, values: data };
     } else {
@@ -74,9 +77,10 @@ ob.display = ob.display || {};
     }
     
     function initialize(root) {
-      root.x = root.y = 0;
-      root.dx = width;
-      root.dy = height;
+      root.x     = 0;
+      root.y     = 0;
+      root.dx    = width;
+      root.dy    = height;
       root.depth = 0;
     }
     
@@ -106,6 +110,25 @@ ob.display = ob.display || {};
 
     
     function display(d) {
+
+      if (opts.title) {
+        $("#chart").prepend("<p class='title'>" + opts.title + "</p>");
+      }
+
+      $('#chart').width(opts.width).height(opts.height);
+
+      grandparent.append("rect")
+        .attr("y", -margin.top)
+        .attr("width", width)
+        .attr("height", margin.top);
+      
+      grandparent.append("text")
+        .attr("x", 6)
+        .attr("y", 6 - margin.top)
+        .attr("dy", ".75em");
+
+
+      
       grandparent
         .datum(d.parent)
         .on("click", transition)
