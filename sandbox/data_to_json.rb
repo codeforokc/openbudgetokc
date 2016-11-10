@@ -1,65 +1,77 @@
 require 'csv'
 require 'json'
+require 'pry'
+require 'optparse'
 
-puts "Please supply the name of the file"
+DATA_KEYS = %w[agency fund lob program_name account amount]
+OKC_MAPPING = { 'agency' => 1,
+                'fund' => 1,
+                'lob' => 1,
+                'program_name' => 1,
+                'account' => 1,
+                'amount' => 1 }
 
-file_name = gets.strip
-csv_file_name = "#{file_name}.csv"
+options = {}
+OptionParser.new do |opts|
+  options[:okc] = false
+  options[:file] = ''
 
-csv = CSV.read(csv_file_name, headers: true)
+  opts.banner = "Usage: data_to_json.rb [options]"
+
+  opts.on("-o", "--okc", "Run with OKC data mappings") do |okc_mapping|
+    options[:okc] = true
+  end
+
+  opts.on("-f", "--file [file]", String, "CSV file to convert") do |file_name|
+    options[:file] = file_name
+  end
+
+  opts.on( '-h', '--help', 'Display this screen' ) do
+    puts opts
+    puts ""
+    exit
+  end
+end.parse!
+
+if options[:file].empty?
+  puts "Please supply the name of the csv file:"
+  puts "Probably something like 'CODE for OKC FY16 Final.csv'"
+  options[:file] = gets.strip
+end
+
+csv = CSV.read(options[:file], headers: true)
 headers = csv.headers
 
-p headers
+mapping = {}
 
-puts "Please select the number corresponding to the agency:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
+if options[:okc]
+  mapping = OKC_MAPPING
+else
+  DATA_KEYS.each do |key|
+    print "Please select the number corresponding to the #{key}:\n"
+    headers.each_with_index { |header, index| puts "#{index}: #{header}"}
 
-agency = gets
-
-puts "Please select the number corresponding to the account:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
-
-account = gets
-
-puts "Please select the number corresponding to the fund:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
-
-fund = gets
-
-puts "Please select the number corresponding to the operating unit:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
-
-operating_unit = gets
-
-puts "Please select the number corresponding to the operating lob:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
-
-lob = gets
-
-puts "Please select the number corresponding to the program name:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
-
-program_name = gets
-
-puts "Please select the number corresponding to the amount:"
-headers.each_with_index { |header, index| puts "#{index}: #{header}"}
-
-amount = gets
+    mapping[key] = gets.to_i
+  end
+end
 
 data = []
-stuff = []
 csv.each do |row|
   data << {
-    agency: row[headers[agency.to_i]], #row["Account Description"],
-    #account: row[headers[account.to_i]], #row["Account Description"],
-    fund: row[headers[fund.to_i]], #row["FundDescription"],
-    #unit: row[headers[operating_unit.to_i]],  #row["OperatingUnitDescription"],
-    lob: row[headers[lob.to_i]],  #row["OperatingUnitDescription"],
-    program: row[headers[program_name.to_i]],  #row["OperatingUnitDescription"],
-    key: row[headers[account.to_i]], #row["ProgramName"],
-    value: row[headers[amount.to_i]] #row["Budget"].to_i
+    agency: row[headers[mapping['agency']]],
+    fund: row[headers[mapping['fund']]],
+    lob: row[headers[mapping['lob']]],
+    program: row[headers[mapping['program_name']]],
+    key: row[headers[mapping['account']]],
+    value: row[headers[mapping['amount']]]
   }
 end
 
-file = File.new("#{file_name}.json" , 'w')
+json_file_name = "#{options[:file].chomp('.csv')}.json"
+file = File.new(json_file_name, 'w')
+
+puts ""
+puts "# Writing #{json_file_name}"
+puts ""
+
 file.write JSON.pretty_generate(data)

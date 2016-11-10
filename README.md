@@ -39,7 +39,15 @@ We have a small script written in ruby for generating a json file from a csv of 
 To run the script
 ```
 $ cd <project_root>/sandbox
-$ ruby data_to_json.rb
+$ ruby data_to_json.rb -f <file.csv> 
+```
+
+The script supports the following options
+```
+Usage: data_to_json.rb [options]
+    -o, --okc                        Run with OKC data mappings
+    -f, --file [file]                CSV file to convert
+    -h, --help                       Display this screen
 ```
 
 ### Harp
