@@ -32,8 +32,7 @@ ob.data = ob.data || {};
      --------------------------------------------------
 
      Recursive structures can be a mess to deal with.
-
-     For this reason, the following helper functions are defined
+functions are defined
 
 
   */
@@ -44,13 +43,20 @@ ob.data = ob.data || {};
 
 
   namespace.accumulate = function (d){
+
     // Aggregate the values for internal nodes. This is normally done by the
     // treemap layout, but not here because of our custom implementation.
     // We also take a snapshot of the original children (_children) to avoid
     // the children being overwritten when when layout is computed.
+
+
+
+
     return (d._children = d.values)
       ? d.value = d.values.reduce(function(p, v) { return parseInt(p) + namespace.accumulate(v); }, 0)
     : parseInt(d.value);
+
+
   }
 
 

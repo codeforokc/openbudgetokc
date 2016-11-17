@@ -1,0 +1,283 @@
+style.
+
+    #chart {
+        height: 3100px;
+    }
+
+    #hover_description {
+        height: 26px;
+    }
+
+    .node rect {
+        fill-opacity: .9;
+        shape-rendering: crispEdges;
+    }
+
+    .node text {
+        pointer-events: none;
+        text-shadow: 0 1px 0 #fff;
+        font-size: 12px;
+    }
+
+    .link {
+        fill: none;
+        stroke: #000;
+        stroke-opacity: .2;
+    }
+
+    .link:hover {
+        stroke-opacity: .5;
+    }
+
+    #warning {
+        color: red;
+    }
+
+.container
+    .row
+        .col-md-10
+            div
+                h4.subheader Sankey Visual of Oklahoma City Budget - FY2016
+                p
+                    | Hover over the visual to see dollar amounts for funds and departments.
+            //- SHARE BUTTON
+            div
+
+            #sankey
+                p#chart
+
+//- Sankey JS
+
+script(src='/js/sankey.js')
+script(src="/js/data.js",charset='utf-8')
+//- script(src='/js/jquery-1.8.3.min.js')
+script.
+    window.addEventListener('message', function (e) {
+        var opts = e.data.opts;
+        var data = e.data.data;
+        return main(opts, data)
+    })
+
+    var defaults = {
+        margin: {top: 24, right: 0, bottom: 0, left: 0},
+        rootname: "TOP",
+        format: ",d",
+        title: "",
+        width: 1000,
+        height: 600
+    };
+
+    function main(o, data) {
+
+
+        var root
+        var opts = $.extend(true
+                , {}
+                , defaults
+                , o),
+                formatNumber = d3.format(opts.format),
+                rname = opts.rootname,
+                margin = opts.margin,
+                theight = 36 + 16;
+
+
+        if (data instanceof Array) {
+            root = {key: rname, values: data};
+        } else {
+            root = data;
+        }
+
+        ob.data.accumulate(root);
+
+
+        do_with_budget(data);
+
+    }
+    // Set Units to reflect currency
+    var units = "USD",
+            linkTooltipOffset = 62,
+            nodeTooltipOffset = 130
+
+    var margin = {top: 10, right: 10, bottom: 10, left: 10},
+            width = 1200 - margin.left - margin.right,
+            height = 3000 - margin.top - margin.bottom;
+
+    var formatNumber = d3.format(",.0f"),    // zero decimal places
+            format = function (d) {
+                return formatNumber(d) + " " + units;
+            },
+            color = d3.scale.category20();
+    function formatAmount(val) {
+        return val.toLocaleString("en-US", {style: 'currency', currency: "USD"}).replace(/\.[0-9]+/, "");
+    };
+
+
+    // append the svg canvas to the page
+    var svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+    // Set the sankey diagram properties
+    var sankey = d3.sankey()
+            .nodeWidth(45)
+            .nodePadding(10)
+            .size([width, height]);
+
+    var path = sankey.link();
+
+    // Build the json object using the
+    function do_with_budget(budget) {
+
+        //set up graph so the d3 sankey plugin will link source with target based on value
+
+        var graph = {"nodes": [], "links": []};
+
+        budget.values.forEach(function (d) {
+            graph.nodes.push({
+                "name": d.key
+            });
+            d.values.forEach(function (c) {
+                if (d.key != c.key) {
+                    graph.nodes.push({
+                        "name": c.key
+                    });
+                    graph.links.push({
+                        "source": d.key,
+                        "target": c.key,
+                        "value": +c.value
+                    });
+                }
+            })
+        });
+
+        var nodeMap = {};
+        graph.nodes.forEach(function (x) {
+            nodeMap[x.name] = x;
+        });
+        graph.links = graph.links.map(function (x) {
+            return {
+                source: nodeMap[x.source],
+                target: nodeMap[x.target],
+                value: x.value
+            };
+        });
+        // built the graph using the json data from graph
+        sankey
+                .nodes(graph.nodes)
+                .links(graph.links)
+                .layout(64);
+        // add in the links
+        var link = svg.append("g").selectAll(".link")
+                .data(graph.links)
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("d", path)
+                .style("stroke-width", function (d) {
+                    return Math.max(2, d.dy);
+                })
+                .sort(function (a, b) {
+                    return b.dy - a.dy;
+                });
+
+        // add the link titles
+        link.append("title")
+                .text(function (d) {
+                    return d.source.name + " → " +
+                            d.target.name + "\n" + format(d.value);
+                });
+
+        // add in the nodes
+        var node = svg.append("g").selectAll(".node")
+                .data(graph.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                })
+                .call(d3.behavior.drag()
+                        .origin(function (d) {
+                            return d;
+                        })
+                        .on("dragstart", function () {
+                            this.parentNode.appendChild(this);
+                        })
+                        .on("drag", dragmove));
+
+        // add the rectangles for the nodes
+        node.append("rect")
+                .attr("height", function (d) {
+                    return d.dy;
+                })
+                .attr("width", sankey.nodeWidth())
+                .style("fill", function (d) {
+                    return d.color = color(d.name.replace(/ .*/, ""));
+                })
+                .style("stroke", function (d) {
+                    return d3.rgb(d.color).darker(2);
+                })
+                .append("title")
+                .text(function (d) {
+                    return d.name + "\n" + format(d.value);
+                });
+
+        // add in the title for the nodes
+        node.append("text")
+                .attr("x", -6)
+                .attr("y", function (d) {
+                    return d.dy / 2;
+                })
+                .attr("dy", ".35em")
+                .attr("text-anchor", "end")
+                .attr("transform", null)
+                .text(function (d) {
+                    return d.name;
+                })
+                .filter(function (d) {
+                    return d.x < width / 2;
+                })
+                .attr("x", 6 + sankey.nodeWidth())
+                .attr("text-anchor", "start");
+
+        // the function for moving the nodes
+        function dragmove(d) {
+            d3.select(this).attr("transform",
+                    "translate(" + (
+                            d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
+                    ) + "," + (
+                            d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+                    ) + ")");
+            sankey.relayout();
+            link.attr("d", path);
+        }
+
+    };
+
+    function buildTheChart() {
+        d3.json("data/fy2016/c4okc_fy2016_final.json", function (err, res) {
+            if (!err) {
+                var data = d3.nest()
+                        .key(function (d) {
+                            return d.agency;
+                        })
+                        .key(function (d) {
+                            return d.lob;
+                        })
+                        .key(function (d) {
+                            return d.program
+                        })
+                        .entries(res);
+                main({title: "City of Oklahoma City Budget - FY2016"}
+                        , {key: "Budget", values: data});
+
+            }
+
+        });
+    }
+
+    if (window.location.hash === "") {
+        buildTheChart();
+    }
+

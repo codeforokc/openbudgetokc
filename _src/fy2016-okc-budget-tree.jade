@@ -84,9 +84,12 @@ script(src="http://d3js.org/d3.v3.min.js"              ,charset='utf-8')
 script(src="/js/data.js",charset='utf-8')
 script.
   window.addEventListener('message', function(e) {
+
       var opts = e.data.opts;
       var data = e.data.data;
+
       return main(opts, data)
+
       })
 
   var defaults = {
@@ -99,6 +102,7 @@ script.
   };
   
   function main(o, data) {
+
         var root,
         opts = $.extend( true
                        , {}
@@ -334,6 +338,7 @@ script.
                          .entries(res);
             main({title: "City of Oklahoma City Budget - FY2016"}
               , {key: "Budget", values: data});
+
         }
     });
   }
