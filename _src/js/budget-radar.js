@@ -68,10 +68,10 @@ ob.display = ob.display || {};
     var _urls = [];
     
     // Hash comes from window screen. 
-    var hash = Hash.parseWithDefault(["fy2016","fy2017"]);    
+    var hash = Hash.parseWithDefault(["2016","2017"]);    
 
 
-    var title = hash[0] + " " + hash[1];
+    var title = "Budget Evolution from " + hash[0] + " to " + hash[1] + ".";
 
 
     //--------------------------------------------------
