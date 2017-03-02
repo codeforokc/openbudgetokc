@@ -1,12 +1,11 @@
 .container#chartContainer
   style.
-
   .row
   .intro.col-md-8
-    h1 FY2016 Budget Overview
+    h1#year FY
     p.description Click on a fund to see the departments that receive its funding. Click on that department to see its spending or revenue. To step out of the department, click ‘Budget’ until you reach the desired department.
 
-  .row#chart(data-json-file = "data/fy2016/c4okc_fy2016_final.json")
+  .row#chart(data-json-file = "data/fy2016/c4okc_fy2016.json")
   table.row.treemap.table-striped#chart-table
     thead
       th Item
@@ -16,4 +15,6 @@
 script(src="http://code.jquery.com/jquery-1.7.2.min.js",charset='utf-8')
 script(src="http://d3js.org/d3.v3.min.js"              ,charset='utf-8')
 script(src="/js/data.js",charset='utf-8')
+script(src="/js/hash.js",charset='utf-8')
 script(src="/js/okc-budget-tree.js",charset='utf-8')
+    
