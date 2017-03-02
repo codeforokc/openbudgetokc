@@ -6,6 +6,7 @@
       return main(opts, data)
       })
 
+  
   var defaults = {
       margin: {top: 24, right: 0, bottom: 0, left: 0},
       rootname: "TOP",
@@ -248,7 +249,13 @@
   }
 
   function buildTheChart(){
-    var jsonPath = $('#chart').data('jsonFile');
+    var h = ob.hash();
+    var hashValue = h.parseWithDefault(h.normalize(window.location.hash))[0] || "fy2017"
+    var hashUpper = hashValue.toUpperCase();
+    var fullTitle = hashUpper +  " Budget Overview";
+    console.log("Testing Hash", h.toDataPath(hashUpper))
+    $("#year").html(fullTitle);
+    var jsonPath = h.toDataPath(hashValue); //$('#chart').data('jsonFile');    
     d3.json(jsonPath, function(err, res) {
         if (!err) {
             var data = d3.nest()
@@ -268,10 +275,10 @@
     defaults.height = $('#chartContainer').width() * 6 / 10;
   }
 
-  if (window.location.hash === "") {
+
     updateDefaultSizes();
     buildTheChart();
-  }
+
 
   $( window ).resize(function() {
     //we used to empty #chart right here, but that's been moved into main to prevent duplicates - @jeinokc

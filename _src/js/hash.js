@@ -18,7 +18,10 @@ var ob = ob || {};
   namespace.hash = function() {
 
     var _s = '.';
+    var _toDataPath = function (s) {
 
+      return ("data/" + s +"/"+ "c4okc_"+ s + ".json");
+    }
     var _normalize = function (s) {
       return s.toLowerCase().replace(/\s+/g, '')}
     var _separator =  function(s) {
@@ -51,6 +54,8 @@ var ob = ob || {};
       set: function(keys) {
       },
       normalize: _normalize
+      ,
+      toDataPath: _toDataPath
       ,
       compare: function (v1, v2) {
         return _normalize(v1) == _normalize(v2) ? 0 : 1
