@@ -1,0 +1,64 @@
+//colors
+$color_alto_approx: #ddd;
+$color_smalt_blue_approx: #5c828a;
+$color_mountain_mist_approx: #999;
+$color_pink_swan_approx: #bbb;
+
+//fonts
+$font_0: Lato;
+$font_1: sans-serif;
+
+body {
+	font-family: $font_0, $font_1;
+}
+div {
+	display: block;
+}
+p {
+	margin: 0 0 1em 0;
+	&.o-l1 {
+		text-transform: uppercase;
+		font-size: 12px;
+		color: $color_smalt_blue_approx;
+		margin-bottom: 0;
+		font-weight: 700;
+	}
+	&.o-l2 {
+		font-size: 22px;
+		margin-bottom: 3px;
+		text-transform: capitalize;
+	}
+	&.o-total {
+		font-size: 18px;
+		margin-bottom: 0;
+		color: $color_mountain_mist_approx;
+	}
+}
+.o-row {
+	display: block;
+	span {
+		display: inline-block;
+	}
+	.o-measure {
+		width: 70%;
+		text-align: right;
+		margin-bottom: 10px;
+		font-weight: 300;
+		position: relative;
+	}
+	.o-detail {
+		width: 28%;
+		margin-left: 1%;
+	}
+}
+.o-value {
+	border-bottom: 1px solid $color_alto_approx;
+}
+.o-cash {
+	color: $color_pink_swan_approx;
+	font-size: 50%;
+	vertical-align: top;
+	top: 0.4em;
+	position: relative;
+	margin-right: 2px;
+}
