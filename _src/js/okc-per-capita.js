@@ -161,7 +161,11 @@ will have the largest font.
   }
 
   // resize fonts when window resizes
-  $(window).resize($.debounce(250, resizeList));
+  $(window).resize(
+    if ($.debounce != undefined) { // check for headless state
+      $.debounce(250, resizeList)
+    }
+  );
 
   // find root element
   // TODO: make root element dynamic
