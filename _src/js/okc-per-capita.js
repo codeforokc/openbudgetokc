@@ -5,6 +5,18 @@ will have the largest font.
 */
 ;/* global $ */
 (function($){
+  // Credit: https://remysharp.com/2010/07/21/throttling-function-calls
+function debounce(fn, delay) {
+  var timer = null;
+  return function () {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
+
   function getRootElement() {
       return $("#list-container");
   }
@@ -161,13 +173,7 @@ will have the largest font.
   }
 
   // resize fonts when window resizes
-  $(window).resize(function() {
-    if ($.debounce != undefined) { // check for headless state
-      $.debounce(250, resizeList)
-    }
-  }
-
-  );
+  $(window).resize(debounce(resizeList, 250));
 
   // find root element
   // TODO: make root element dynamic
