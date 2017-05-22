@@ -98,14 +98,14 @@ function data_wrangle(dataset, fy){
       "Transient Occupancy Tax",
       "Service Charges", 
       "Transfers from Fund Balance", 
-      "Miscellaneous Revenue", 
+      "Miscellaneous Revenue", "Miscellaneous",
       "Interest Income", 
       "Licenses & Permits",
       "Interfund Transfers", 
       "Grants & Subsidies", 
       "Local (Parcel) Taxes", "Local Tax", 
       "Internal Service Funds",
-      "Gas Tax",
+      "Gas Tax", "Gasoline Tax",
     ];
     rev = newdata.filter(function(v,i,a){
         return v.account_type == "Revenue";
@@ -114,11 +114,11 @@ function data_wrangle(dataset, fy){
         .key(function(d){
             return d.account_category;
         })
-        .sortKeys(function(a,b){
-            return rev_order.indexOf(a) - rev_order.indexOf(b);
-        })
+        //.sortKeys(function(a,b){
+        //    return rev_order.indexOf(a) - rev_order.indexOf(b);
+        //})
         .key(function(d){
-            if (d.fund_code == "1010") {
+            if (d.fund_code == "1") {
                 return "General Fund";
             } else {
                 return "Non-discretionary funds";
@@ -157,21 +157,23 @@ function data_wrangle(dataset, fy){
     exp_order = [
         // keep variations of the same label on a single line
         "Police Department", "Police",
+        "Race & Equity",
         "Fire Department", "Fire",
         "City Council",
         "Administrative Services",
-        "Oakland Parks & Recreation",
+        "Oakland Parks & Recreation", "Parks & Recreation",
         "Human Services",
         "City Auditor",
         "Community Services",
         "Information Technology",
-        "Finance",
+        "Public Ethics Commission",
+        "Finance", "Finance Department",
         "City Clerk",
         "Capital Improvement Projects",
         "Mayor",
         "Economic & Workforce Development",
         "City Administrator",
-        "Human Resources Management",
+        "Human Resources Management", "Human Resources",
         "Planning & Building",
         "City Attorney",
         "Housing & Community Development",
@@ -186,11 +188,11 @@ function data_wrangle(dataset, fy){
             }
             return d.department;
         })
-        .sortKeys(function(a,b){
-            return exp_order.indexOf(a) - exp_order.indexOf(b);
-        })
+        //.sortKeys(function(a,b){
+        //    return exp_order.indexOf(a) - exp_order.indexOf(b);
+        //})
         .key(function(d){
-            if (d.fund_code == "1010") {
+            if (d.fund_code == "1") {
                 return "General Fund";
             } else {
                 return "Non-discretionary funds";

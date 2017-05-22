@@ -100,8 +100,14 @@ footer {
 }
 
 .row.visualizations {
+    h3 {
+        text-align: center;
+    } 
     img {
         height: 214px;
         margin: 0 auto 15px;
+    }
+    p {
+        text-align: center;
     }
 }

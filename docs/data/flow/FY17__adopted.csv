@@ -1,0 +1,69 @@
+account_category,account_type,amount,budget_year,department,fund_code
+Administrative Charges,Revenue,19743174.0,FY17,,1
+Fines,Revenue,22998502.0,FY17,,1
+Franchise Fees,Revenue,41932247.0,FY17,,1
+Fund Balance,Revenue,2750000.0,FY17,,1
+Interest,Revenue,955000.0,FY17,,1
+"Licenses, Permits And Fees",Revenue,14539370.0,FY17,,1
+Other,Revenue,2829053.0,FY17,,1
+Other Taxes,Revenue,12123948.0,FY17,,1
+Sales Tax,Revenue,218207102.0,FY17,,1
+Service Charges,Revenue,37131207.0,FY17,,1
+Transfers,Revenue,3087404.0,FY17,,1
+Use Tax,Revenue,37900276.0,FY17,,1
+Fund Balance,Revenue,346415778.0,FY17,,2
+Other,Revenue,10980766.0,FY17,,2
+Fees,Revenue,26540867.0,FY17,,2
+Fines,Revenue,572.0,FY17,,2
+Grants,Revenue,43306504.0,FY17,,2
+Sales Tax,Revenue,204841918.0,FY17,,2
+Service Charges,Revenue,854093.0,FY17,,2
+Interest,Revenue,5073147.0,FY17,,2
+Property Tax,Revenue,84327057.0,FY17,,2
+Asset Seizures,Revenue,1168780.0,FY17,,2
+Transfers,Revenue,129090311.0,FY17,,2
+Chargeback,Revenue,49290802.0,FY17,,2
+Assessments,Revenue,3715900.0,FY17,,2
+Tariffs,Revenue,4907458.0,FY17,,2
+Reimbursements,Revenue,255766.0,FY17,,2
+Tranfers,Revenue,17574222.0,FY17,,2
+Use Tax,Revenue,13182705.0,FY17,,2
+Tif Match,Revenue,850000.0,FY17,,2
+Donations,Revenue,2244257.0,FY17,,2
+Hotel/Motel Tax,Revenue,14284203.0,FY17,,2
+,Expense,1003024.0,FY17,Mayor and Council,1
+,Expense,3136396.0,FY17,City Manager,1
+,Expense,6830422.0,FY17,Municipal Counselor,1
+,Expense,9162646.0,FY17,Municipal Court,1
+,Expense,2886222.0,FY17,Personnel,1
+,Expense,992440.0,FY17,City Clerk,1
+,Expense,3860137.0,FY17,Planning,1
+,Expense,8444536.0,FY17,Finance,1
+,Expense,1149802.0,FY17,City Auditor,1
+,Expense,29890604.0,FY17,Public Works,1
+,Expense,4824383.0,FY17,General Services,1
+,Expense,133934070.0,FY17,Police,1
+,Expense,93001917.0,FY17,Fire,1
+,Expense,16460670.0,FY17,Public Transportation,1
+,Expense,26021239.0,FY17,Parks,1
+,Expense,18188230.0,FY17,Development Services,1
+,Expense,54410545.0,FY17,Non Departmental,1
+,Expense,53203952.0,FY17,Public Works,2
+,Expense,79700894.0,FY17,Police,2
+,Expense,11987666.0,FY17,Municipal Court,2
+,Expense,27420.0,FY17,Municipal Counselor,2
+,Expense,42420897.0,FY17,Planning,2
+,Expense,20142413.0,FY17,General Services,2
+,Expense,121027.0,FY17,City Clerk,2
+,Expense,155760697.0,FY17,Non Departmental,2
+,Expense,62835052.0,FY17,Fire,2
+,Expense,10500.0,FY17,Mayor and Council,2
+,Expense,323948119.0,FY17,City Manager,2
+,Expense,39526564.0,FY17,Information Technology,2
+,Expense,15844129.0,FY17,Finance,2
+,Expense,4131314.0,FY17,Public Transportation,2
+,Expense,6981127.0,FY17,Parks,2
+,Expense,1958299.0,FY17,Development Services,2
+,Expense,14188917.0,FY17,Zoo,2
+,Expense,100775432.0,FY17,Utilities,2
+,Expense,17602492.0,FY17,Airport,2
