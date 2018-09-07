@@ -42,5 +42,9 @@
   "budget-radar": {
     "title": "Budget Radar | Open Budget: OKC",
     "slug": "budget-radar"
+  },
+  "budget-per-capita": {
+    "title": "OKC 2017 FY Budget Per Citizen | Open Budget: OKC",
+    "slug": "budget-per-capita"
   }
 }
