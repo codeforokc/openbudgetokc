@@ -7,3 +7,8 @@ before_script:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+notifications:
+    slack:
+        rooms:
+            secure: t95Fl6VivJYMLDAT/MQ9C2zIu65cB1pvKf4MruBCwAOvb5qmDNn1v+O2XaC9qOG2NjlrLYNb6DqtAnsIP2rN6r0KR2Kfi6RHF8jW9cO1iZOu+h0+aTPM7SlAO5T478rRfOXwHy/9me1n1yjh8XKFy5s53FYE2XsGrdy4dbWKVXZxTnEnJldmTESCgVDXe0QuGoArROWXskc+qmYiLSkoynWu+W3zm+ALxgSMNA80OQXGlMxm721D+aCrW9D9UBV1m4/tSGM/hPBKRoPaMBqjpbjdD3K8BB6LS1t2lgRxR5G2WfM4PMlIgRQUiTSKcgyancfwHWKh1r727rNYoYFmuwlYBXEgtahospujDzCZRp+gwuk6nlF/f47JS52LwhxFPAjffpWHmjW49TooAi2VydaD/BLB22HinoQ+ybQjNrSZVBoxbdvtjw3m4Kv8fBGWAGrJoKyoVvMWZG2eUpB+UI9/YRXmAbNP6hdT5GFh7oUP91M0WKm7U83SlEPwk5PflPXKPU3a2KeuJgAJIfErKoYXjkCwke9Amaw19kUj+9yXdi5iiAUfurP/FDgdPEQ+rc+MiaxhCjON2BfCDZEXWONxxMSzdp/ZSUfJns6NhW77uX0h3GlpQIEvikoSd6iDH5DnttmQcYAKPfbKTaqMvdeAeKwEWYKjzYMcA5PV5Zg=
+        on_success: always
